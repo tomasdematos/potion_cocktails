@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from models import db, Potman, Store, Stock, Potion
 from flask_cors import CORS
+from utils import format_potion, format_potions, format_stock, format_stocks, format_stores, format_store, format_potman, format_potmen
 
 app = Flask(__name__)
 port = 5000
@@ -14,32 +15,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 def main():
     return 'Making potions'
 
-
 # POTMEN - POTMAN
+
+
 @app.route('/potmen', methods=['GET'])
 def get_potmen():
     try:
         potmen = Potman.query.all()
-        potmen_data = []
-        for potman in potmen:
-            potman_data = {
-                'id': potman.id,
-                'name': potman.name,
-                'createdAt': potman.created_at,
-                'stores': []
-            }
+        potmen_data = format_potmen(potmen, True)
 
-            for store in potman.stores:
-                store_data = {
-                    'id': store.id,
-                    'name': store.name,
-                    'fame': store.fame,
-                    'createdAt': store.created_at,
-                    'stokes': []
-                }
-                potman_data['stores'].append(store_data)
-
-            potmen_data.append(potman_data)
         return jsonify(potmen_data)
     except Exception as error:
         print('Error', error)
@@ -52,23 +36,7 @@ def get_potman_by_id(id):
         potman = Potman.query.get(id)
 
         if potman:
-            potman_data = {
-                'id': potman.id,
-                'name': potman.name,
-                'createdAt': potman.created_at,
-                'stores': []
-            }
-
-            for store in potman.stores:
-                store_data = {
-                    'id': store.id,
-                    'name': store.name,
-                    'fame': store.fame,
-                    'createdAt': store.created_at,
-                    'stokes': []
-                }
-                potman_data['stores'].append(store_data)
-
+            potman_data = format_potman(potman)
             return jsonify(potman_data)
         return jsonify({'message': 'Potman not found'}), 404
 
@@ -88,13 +56,7 @@ def add_potman():
         db.session.add(new_potman)
         db.session.commit()
 
-        potman_data = {
-            'id': new_potman.id,
-            'name': new_potman.name,
-            'created_at': new_potman.created_at,
-            'stores': []
-        }
-
+        potman_data = format_potman(new_potman)
         return jsonify({'message': 'Potman created', 'potman': potman_data}), 201
     except Exception as error:
         print('Error', error)
@@ -107,27 +69,7 @@ def add_potman():
 def get_stores():
     try:
         stores = Store.query.all()
-        stores_data = []
-        for store in stores:
-            store_data = {
-                'id': store.id,
-                'name': store.name,
-                'createdAt': store.created_at,
-                'ownerId': store.owner_id,
-                'fame': store.fame,
-                'stokes': []
-            }
-
-            for stoke in store.stokes:
-                stoke_data = {
-                    'id': stoke.id,
-                    'amount': stoke.amount,
-                    'potion_id': stoke.potion_id,
-                    'createdAt': stoke.created_at,
-                }
-                store_data['stokes'].append(stoke_data)
-
-            stores_data.append(store_data)
+        stores_data = format_stores(stores, True)
         return jsonify(stores_data)
     except Exception as error:
         print('Error', error)
@@ -140,24 +82,7 @@ def get_store_by_id(id):
         store = Store.query.get(id)
 
         if store:
-            store_data = {
-                'id': store.id,
-                'name': store.name,
-                'createdAt': store.created_at,
-                'ownerId': store.owner_id,
-                'fame': store.fame,
-                'stokes': []
-            }
-
-            for stoke in store.stokes:
-                stoke_data = {
-                    'id': stoke.id,
-                    'amount': stoke.amount,
-                    'potion_id': stoke.potion_id,
-                    'createdAt': stoke.created_at,
-                }
-                store_data['stokes'].append(stoke_data)
-
+            store_data = format_store(store)
             return jsonify(store_data)
 
         return jsonify({'message': 'Store not found'}), 404
@@ -197,13 +122,7 @@ def add_store():
         db.session.add(new_store)
         db.session.commit()
 
-        store_data = {
-            'id': new_store.id,
-            'name': new_store.name,
-            'fame': new_store.fame,
-            'owner_id': new_store.owner_id,
-            'created_at': new_store.created_at
-        }
+        store_data = format_store(new_store)
 
         return jsonify({'message': 'Store created', 'store': store_data}), 201
     except Exception as error:
@@ -217,15 +136,7 @@ def add_store():
 def get_potions():
     try:
         potions = Potion.query.all()
-        potions_data = []
-        for potion in potions:
-            potion_data = {
-                'id': potion.id,
-                'name': potion.name,
-                'createdAt': potion.created_at,
-            }
-
-            potions_data.append(potion_data)
+        potions_data = format_potions(potions)
         return jsonify(potions_data)
     except Exception as error:
         print('Error', error)
@@ -238,12 +149,7 @@ def get_potion_by_id(id):
         potion = Potion.query.get(id)
 
         if potion:
-            potion_data = {
-                'id': potion.id,
-                'name': potion.name,
-                'createdAt': potion.created_at,
-            }
-
+            potion_data = format_potion(potion)
             return jsonify(potion_data)
 
         return jsonify({'message': 'Potion not found'}), 404
@@ -264,13 +170,92 @@ def add_potion():
         db.session.add(new_potion)
         db.session.commit()
 
-        potion_data = {
-            'id': new_potion.id,
-            'name': new_potion.name,
-            'created_at': new_potion.created_at,
-        }
+        potion_data = format_potion(new_potion)
 
         return jsonify({'message': 'Potion created', 'potion': potion_data}), 201
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+# STOCKS - STOCK
+
+
+@app.route('/stocks', methods=['GET'])
+def get_stocks():
+    try:
+        stocks = Stock.query.all()
+        stocks_data = format_stocks(stocks, True)
+        return jsonify(stocks_data)
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@app.route('/stock/<int:id>', methods=['GET'])
+def get_stock_by_id(id):
+    try:
+        stock = Stock.query.get(id)
+
+        if stock:
+            stock_data = format_stock(stock)
+            return jsonify(stock_data)
+
+        return jsonify({'message': 'Stock not found'}), 404
+
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
+@app.route('/stock', methods=['POST'])
+def add_stock():
+    try:
+        data = request.json
+        store_id = data.get('storeId')
+        potion_id = data.get('potionId')
+        amount = data.get('amount')
+        # --------------------------------
+        # Check missing fields
+        # --------------------------------
+        error = ''
+        if not store_id:
+            error = error + '\'storeId\' '
+        if not potion_id:
+            error = error + '\'potionId\' '
+
+        if error != '':
+            return jsonify({'message': 'Bad request: Missing required fields: ' + error.strip()}), 400
+        # --------------------------------
+        # Check Foraints
+        # --------------------------------
+        store = Store.query.get(store_id)
+        if not store:
+            return jsonify({'message': 'Bad request: Invalid store_id'}), 400
+        potion = Potion.query.get(potion_id)
+        if not potion:
+            return jsonify({'message': 'Bad request: Invalid potion_id'}), 400
+        # --------------------------------
+        # Check for existing stock
+        # --------------------------------
+        stock = Stock.query.filter_by(
+            store_id=store_id,
+            potion_id=potion_id
+        ).first()
+        if stock:
+            stock_data = format_stock(stock)
+            return jsonify({'message': 'Already Existing Stock', 'stock': stock_data}), 200
+
+        new_stock = Stock(
+            store_id=store_id,
+            potion_id=potion_id,
+            amount=amount
+        )
+        db.session.add(new_stock)
+        db.session.commit()
+
+        stock_data = format_stock(new_stock)
+
+        return jsonify({'message': 'Stock created', 'stock': stock_data}), 201
     except Exception as error:
         print('Error', error)
         return jsonify({'message': 'Internal server error'}), 500
