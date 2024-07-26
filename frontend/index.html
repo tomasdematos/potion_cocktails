@@ -1,20 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Potion Cocktails</title>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Potion stuff here</h1>
+    <button onclick="createPotman()">Create Potman</button>
+    <button onclick="createStore()">Create Store</button>
+    <button onclick="createPotion()">Create Potion</button>
+
     <script>
+      const createPotman = () => {
         fetch("http://localhost:5000/potman", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name: "testPost" }),
-        }).then((response) => response.json()).then((a) => console.log(a));
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: "testPost" }),
+        }).then((response) => response.json());
+      };
+
+      const getPotman = (id) => {
+        fetch(`http://localhost:5000/potman/${id}`)
+          .then((response) => response.json())
+          .then((data) => console.log("get: ", data));
+      };
+
+      const createStore = () => {
+        fetch("http://localhost:5000/store", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ownerId: 4, name: "testStore" }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data));
+      };
+
+      const createPotion = () => {
+        fetch("http://localhost:5000/potion", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ name: "potionTest" }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data));
+      };
     </script>
-</body>
+  </body>
 </html>
