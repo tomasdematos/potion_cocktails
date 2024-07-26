@@ -10,6 +10,7 @@
     <button onclick="createPotman()">Create Potman</button>
     <button onclick="createStore()">Create Store</button>
     <button onclick="createPotion()">Create Potion</button>
+    <button onclick="createStock()">Create Stock</button>
 
     <script>
       const createPotman = () => {
@@ -47,6 +48,21 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({ name: "potionTest" }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log(data));
+      };
+
+      const createStock = () => {
+        fetch("http://localhost:5000/stock", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            storeId: 1,
+            potionId: 1,
+          }),
         })
           .then((response) => response.json())
           .then((data) => console.log(data));

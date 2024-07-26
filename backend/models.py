@@ -19,13 +19,13 @@ class Store(db.Model):
     name = db.Column(db.String(50), nullable=False)
     fame = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())
-    stokes = db.relationship("Stock")
+    stocks = db.relationship("Stock")
 
 
 class Stock(db.Model):
     __tablename__ = 'stocks'
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Integer, nullable=False, default=0)
     potion_id = db.Column(db.Integer, db.ForeignKey('potions.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())
