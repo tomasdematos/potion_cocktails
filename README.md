@@ -9,7 +9,11 @@ pip install flask
 ## Run BE
 
 ```bash
-source venv/bin/activate
-cd backend
-flask run --debug
+python3 app.py
+```
+
+start postgresql
+
+```bash
+sudo systemctl start postgresql
 ```

@@ -8,7 +8,13 @@
 <body>
     <h1>Potion stuff here</h1>
     <script>
-        fetch("http://localhost:8000").then((response)=> response.json()).then((a) => console.log(a) )
+        fetch("http://localhost:5000/potman", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name: "testPost" }),
+        }).then((response) => response.json()).then((a) => console.log(a));
     </script>
 </body>
 </html>
