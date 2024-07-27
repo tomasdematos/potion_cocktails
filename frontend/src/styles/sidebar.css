@@ -1,0 +1,73 @@
+.sidebar {
+  display: flex;
+  opacity: 0;
+  height: 97%;
+  width: 25rem;
+  right: -25.5rem;
+  top: 8px;
+  overflow: hidden;
+  z-index: 1;
+  position: fixed;
+  padding-block: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding-left: 0.5rem;
+  border-top-left-radius: 0.5rem;
+  background-color: #674525;
+  transition: right 0.5s, opacity 0.5s;
+
+  .sidebar-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background-color: #b07b48;
+    padding-top: 1rem;
+    padding-inline: 1rem;
+    border-top-left-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
+    gap: 0.5rem;
+  }
+
+  .close {
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: opacity 0.25s;
+  }
+  .close:hover {
+    opacity: 0.5;
+  }
+  .close:active {
+    opacity: 0.8;
+  }
+}
+
+.sidebar.visible {
+  opacity: 1;
+  right: 0;
+}
+
+.ingridients-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+
+  .ingridient {
+    width: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    border-radius: 0.5rem;
+    border: 0.25rem solid #58463c;
+    background-color: #6c594a;
+    cursor: pointer;
+    color: #fff;
+    transition: opacity 0.25s;
+  }
+  .ingridient.selected {
+    opacity: 0.5;
+  }
+  .ingridient:hover {
+    background-color: #6c594a90;
+  }
+}
