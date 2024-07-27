@@ -3,70 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="src/styles/glow-button.css" />
+
     <title>Potion Cocktails</title>
   </head>
   <body>
-    <h1>Potion stuff here</h1>
-    <button onclick="createPotman()">Create Potman</button>
-    <button onclick="createStore()">Create Store</button>
-    <button onclick="createPotion()">Create Potion</button>
-    <button onclick="createStock()">Create Stock</button>
+    <main>
+      <!-- <div>
+        <button onclick="createPotman()">Create Potman</button>
+        <button onclick="createStore()">Create Store</button>
+        <button onclick="createPotion()">Create Potion</button>
+        <button onclick="createStock()">Create Stock</button>
+      </div> -->
 
-    <script>
-      const createPotman = () => {
-        fetch("http://localhost:5000/potman", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: "testPost" }),
-        }).then((response) => response.json());
-      };
-
-      const getPotman = (id) => {
-        fetch(`http://localhost:5000/potman/${id}`)
-          .then((response) => response.json())
-          .then((data) => console.log("get: ", data));
-      };
-
-      const createStore = () => {
-        fetch("http://localhost:5000/store", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ ownerId: 4, name: "testStore" }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-      };
-
-      const createPotion = () => {
-        fetch("http://localhost:5000/potion", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name: "potionTest" }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-      };
-
-      const createStock = () => {
-        fetch("http://localhost:5000/stock", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            storeId: 1,
-            potionId: 1,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => console.log(data));
-      };
-    </script>
+      <div class="cards-container">
+        <div class="cards-content-container">
+          <div class="potion-card">1</div>
+          <h1>+</h1>
+          <div class="potion-card">1</div>
+          <h1>=</h1>
+          <div class="potion-card">POTION</div>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <div class="fame-placeholder">
+        <div class="fame-container circle">
+          <p>0/5</p>
+        </div>
+        <!-- <div class="fame-container"></div> -->
+      </div>
+      <div class="button-container">
+        <button class="glow-on-hover">Brew</button>
+      </div>
+      <div class="avatar-placeholder">
+        <div class="avatar-container circle">
+          <img
+            class="avatar"
+            src="https://tr.rbxcdn.com/56d2207d6550e5670ff5abc0744421c5/420/420/LayeredAccessory/Webp"
+          />
+        </div>
+      </div>
+    </footer>
+    <script src="src/service.js"></script>
   </body>
 </html>

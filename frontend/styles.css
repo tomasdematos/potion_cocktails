@@ -1,0 +1,147 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: rgb(2, 0, 36);
+
+  background-image: linear-gradient(
+    to bottom,
+    #020024,
+    #361437,
+    #66233d,
+    #8d3f37,
+    #a1662f
+  );
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.cards-container {
+  background-color: #58463c;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: auto;
+  width: 50%;
+  height: 50%;
+}
+
+.cards-content-container {
+  background-color: #826e5a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-evenly;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 100%;
+
+  .potion-card {
+    width: 5rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 0.5rem;
+    border: 0.25rem solid #58463c;
+    background-color: #6c594a;
+    cursor: pointer;
+  }
+
+  .potion-card:hover {
+    background-color: #6c594a90;
+  }
+}
+
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4.125rem;
+  border-bottom: 4px solid #a1662f;
+  .footer-item {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 33%;
+  }
+
+  .circle {
+    background: radial-gradient(circle at 100px 100px, #5cabffd5, #000);
+  }
+
+  .button-container {
+    background-color: #a1662f;
+    margin-bottom: -0.5rem;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+
+    padding: 0.5rem;
+    height: 100%;
+  }
+
+  .avatar-placeholder,
+  .fame-placeholder {
+    width: 33%;
+    height: 1px;
+    display: flex;
+
+    .avatar-container,
+    .fame-container,
+    .circle {
+      margin: 0px;
+      margin-top: -7.5rem;
+      width: 11rem;
+      height: 11rem;
+      border-radius: 100%;
+      display: flex;
+      justify-content: center;
+      border: 2px solid #a1662f;
+    }
+  }
+
+  .avatar-placeholder {
+    flex-direction: row-reverse;
+
+    .avatar-container.circle {
+      background-color: #74ed55;
+      background: radial-gradient(circle at 100px 100px, #73ed55e4, #000);
+
+      margin-right: -1.5rem;
+
+      .avatar {
+        opacity: 0.7;
+        width: 9.5rem;
+        height: 9.5rem;
+        transition: width 0.15s, height 0.15s, width 0.15s, margin-top 0.15s;
+      }
+
+      .avatar:active {
+        margin-top: -1rem;
+        width: 15.5rem;
+        height: 15.5rem;
+      }
+    }
+  }
+
+  .fame-placeholder {
+    flex-direction: row;
+
+    .fame-container.circle {
+      border: 2px solid #a1662f;
+      margin-left: -1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
