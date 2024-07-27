@@ -3,49 +3,75 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn-uicons.flaticon.com/2.5.1/uicons-solid-rounded/css/uicons-solid-rounded.css"
+    />
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="src/styles/glow-button.css" />
-
+    <link rel="stylesheet" href="src/styles/sidebar.css" />
     <title>Potion Cocktails</title>
   </head>
   <body>
-    <main>
-      <!-- <div>
-        <button onclick="createPotman()">Create Potman</button>
-        <button onclick="createStore()">Create Store</button>
-        <button onclick="createPotion()">Create Potion</button>
-        <button onclick="createStock()">Create Stock</button>
-      </div> -->
+    <div id="ingridients-sidebar" class="sidebar">
+      <div class="sidebar-content">
+        <div>
+          <i onclick="closeSidebar()" class="fa fa-times close"></i>
+        </div>
+        <p id="sidebar-title"></p>
+        <div id="ingridients-container" class="ingridients-container">
+          <!-- auto populated with ingridients -->
+        </div>
+      </div>
+    </div>
 
+    <main>
       <div class="cards-container">
         <div class="cards-content-container">
-          <div class="potion-card">1</div>
+          <div id="card-1" class="potion-card">
+            <i class="fa fa-star"></i>
+          </div>
           <h1>+</h1>
-          <div class="potion-card">1</div>
+          <div id="card-2" class="potion-card">
+            <i class="fa fa-star"></i>
+          </div>
           <h1>=</h1>
-          <div class="potion-card">POTION</div>
+          <div id="card-3" class="potion-card potion-result">
+            <i class="fi fi-sr-flask-potion"></i>
+          </div>
         </div>
       </div>
     </main>
+
     <footer>
       <div class="fame-placeholder">
         <div class="fame-container circle">
           <p>0/5</p>
         </div>
-        <!-- <div class="fame-container"></div> -->
       </div>
       <div class="button-container">
-        <button class="glow-on-hover">Brew</button>
+        <button id="brew-button" class="glow-on-hover" onclick="onClickBrew()">
+          Brew
+        </button>
       </div>
       <div class="avatar-placeholder">
         <div class="avatar-container circle">
           <img
+            id="avatar"
             class="avatar"
             src="https://tr.rbxcdn.com/56d2207d6550e5670ff5abc0744421c5/420/420/LayeredAccessory/Webp"
           />
         </div>
       </div>
     </footer>
-    <script src="src/service.js"></script>
+
+    <script src="src/scripts/service.js"></script>
+    <script src="src/scripts/brewing.js"></script>
+
+    <script></script>
   </body>
 </html>
