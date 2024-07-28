@@ -22,9 +22,14 @@
         <div>
           <i onclick="closeSidebar()" class="fa fa-times close"></i>
         </div>
-        <p id="sidebar-title"></p>
         <div id="ingridients-container" class="ingridients-container">
           <!-- auto populated with ingridients -->
+        </div>
+        <div id="ingridient-details" class="disabled">
+          <h3>Description:</h3>
+          <p id="description"></p>
+          <h3>Effects</h3>
+          <p id="effects"></p>
         </div>
       </div>
     </div>
@@ -52,12 +57,19 @@
 
     <footer>
       <div class="fame-placeholder">
+        <div id="progress-container">
+          <div class="progress"></div>
+        </div>
         <div class="fame-container circle">
-          <p>0/5</p>
+          <p id="discoveries">0/0</p>
         </div>
       </div>
       <div class="button-container">
-        <button id="brew-button" class="glow-on-hover" onclick="onClickBrew()">
+        <button
+          id="brew-button"
+          class="glow-on-hover disabled"
+          onclick="onClickBrew()"
+        >
           Brew
         </button>
       </div>
@@ -73,6 +85,7 @@
     </footer>
 
     <script src="src/scripts/service.js"></script>
+    <script src="src/scripts/utils.js"></script>
     <script src="src/scripts/brewing.js"></script>
 
     <script></script>

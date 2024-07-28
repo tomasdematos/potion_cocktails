@@ -1,3 +1,11 @@
+h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+h3:first-child {
+  margin-top: 0rem;
+}
 .sidebar {
   display: flex;
   opacity: 0;
@@ -49,14 +57,17 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+  overflow-y: scroll;
 
   .ingridient {
-    width: 2rem;
-    height: 2rem;
+    width: 5rem;
+    height: 5rem;
     display: flex;
+    text-align: center;
+
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
+    font-size: 1rem;
     border-radius: 0.5rem;
     border: 0.25rem solid #58463c;
     background-color: #6c594a;
@@ -70,4 +81,27 @@
   .ingridient:hover {
     background-color: #6c594a90;
   }
+}
+
+.ingridients-container::-webkit-scrollbar {
+  display: none;
+}
+
+.ingridients-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+#ingridient-details {
+  display: flex;
+  margin-top: auto;
+  margin-bottom: 10rem;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  background-color: #c59363;
+}
+
+#ingridient-details.disabled {
+  display: none;
 }

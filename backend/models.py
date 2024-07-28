@@ -25,7 +25,7 @@ class Store(db.Model):
 class Stock(db.Model):
     __tablename__ = 'stocks'
     id = db.Column(db.Integer, primary_key=True)
-    amount = db.Column(db.Integer, nullable=False, default=0)
+    amount = db.Column(db.Integer, nullable=False, default=1)
     potion_id = db.Column(db.Integer, db.ForeignKey('potions.id'))
     store_id = db.Column(db.Integer, db.ForeignKey('stores.id'))
     created_at = db.Column(db.DateTime, default=datetime.datetime.now())
