@@ -26,13 +26,13 @@ const createStore = () => {
     .then((data) => console.log(data));
 };
 
-const createPotion = () => {
+const createPotion = (name) => {
   fetch("http://localhost:5000/potion", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ name: "potionTest" }),
+    body: JSON.stringify({ name }),
   })
     .then((response) => response.json())
     .then((data) => console.log(data));

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "Dragon Alphabet";
+  src: url("./fonts/dragon-alphabet.regular.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   height: 100%;
@@ -32,52 +39,82 @@ main {
   padding: 0.5rem;
   margin: auto;
   width: 50%;
-  height: 50%;
 }
 
 .cards-content-container {
   background-color: #826e5a;
+  position: relative;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  justify-content: space-evenly;
+  flex-direction: column;
   border-radius: 0.5rem;
+  align-items: center;
   width: 100%;
   height: 100%;
+  gap: 2rem;
 
-  .potion-card {
-    width: 5rem;
-    height: 5rem;
+  .potion-name {
+    font-family: "Dragon Alphabet";
+    font-size: 3rem;
+    line-height: 3rem;
+    min-height: 3rem;
+    margin: 0px;
+    margin-top: 2rem;
+    text-align: center;
+    padding-inline: 2rem;
+    animation: potion-name-glow 2s ease infinite;
+  }
+
+  .potion-name.revealed {
+    font-family: "Serif";
+    color: #000000 !important;
+    text-shadow: 0 0 2px #23747e, 0 0 4px #23747e;
+  }
+
+  .cards {
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 0.5rem;
-    border: 0.25rem solid #58463c;
-    background-color: #6c594a;
-    cursor: pointer;
-    transition: opacity 0.25s;
+    justify-content: space-evenly;
+    width: 100%;
+    margin-bottom: 5rem;
 
-    .fi,
-    .fa {
-      font-size: 2rem;
-      color: #826e5a;
+    .potion-card {
+      width: 5rem;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border-radius: 0.5rem;
+      border: 0.25rem solid #58463c;
+      background-color: #6c594a;
+      cursor: pointer;
+      transition: opacity 0.25s;
+
+      .fi,
+      .fa {
+        font-size: 2rem;
+        color: #826e5a;
+      }
     }
-  }
 
-  .potion-card.assigned {
-    .fi,
-    .fa {
-      color: #58463c;
+    .potion-card.assigned {
+      .fi,
+      .fa {
+        color: #58463c;
+      }
     }
-  }
 
-  .potion-card.selected {
-    opacity: 0.2;
-  }
+    .potion-card.selected {
+      opacity: 0.2;
+    }
 
-  .potion-card:hover {
-    background-color: #6c594a90;
+    .potion-card:not(.potion-result.disabled):hover {
+      background-color: #6c594a90;
+    }
+
+    .potion-card.potion-result.disabled {
+      opacity: 0.5;
+    }
   }
 }
 
@@ -166,6 +203,11 @@ footer {
 }
 
 .shake-jump {
+  animation: shake-jump 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.avatar.shake-jump {
   animation: shake-jump 0.5s;
   animation-iteration-count: infinite;
 }
@@ -260,5 +302,89 @@ footer {
   }
   100% {
     border-color: #58463c;
+  }
+}
+
+@keyframes potion-name-glow {
+  0%,
+  100% {
+    color: #000000;
+    text-shadow: 0 0 2px #000000, 0 0 4px #000000;
+  }
+  5% {
+    color: #051112;
+    text-shadow: 0 0 2px #051112, 0 0 4px #051112;
+  }
+  10% {
+    color: #0a1e22;
+    text-shadow: 0 0 2px #0a1e22, 0 0 4px #0a1e22;
+  }
+  15% {
+    color: #0e2a2e;
+    text-shadow: 0 0 2px #0e2a2e, 0 0 4px #0e2a2e;
+  }
+  20% {
+    color: #143c44;
+    text-shadow: 0 0 2px #143c44, 0 0 4px #143c44;
+  }
+  25% {
+    color: #1a4f56;
+    text-shadow: 0 0 2px #1a4f56, 0 0 4px #1a4f56;
+  }
+  30% {
+    color: #1e5a66;
+    text-shadow: 0 0 2px #1e5a66, 0 0 4px #1e5a66;
+  }
+  35% {
+    color: #23747e;
+    text-shadow: 0 0 2px #23747e, 0 0 4px #23747e;
+  }
+  40% {
+    color: #287889;
+    text-shadow: 0 0 2px #287889, 0 0 4px #287889;
+  }
+  45% {
+    color: #2d8394;
+    text-shadow: 0 0 2px #2d8394, 0 0 4px #2d8394;
+  }
+  50% {
+    color: #3196ab;
+    text-shadow: 0 0 2px #3196ab, 0 0 4px #3196ab;
+  }
+  55% {
+    color: #2d8394;
+    text-shadow: 0 0 2px #2d8394, 0 0 4px #2d8394;
+  }
+  60% {
+    color: #287889;
+    text-shadow: 0 0 2px #287889, 0 0 4px #287889;
+  }
+  65% {
+    color: #23747e;
+    text-shadow: 0 0 2px #23747e, 0 0 4px #23747e;
+  }
+  70% {
+    color: #1e5a66;
+    text-shadow: 0 0 2px #1e5a66, 0 0 4px #1e5a66;
+  }
+  75% {
+    color: #1a4f56;
+    text-shadow: 0 0 2px #1a4f56, 0 0 4px #1a4f56;
+  }
+  80% {
+    color: #143c44;
+    text-shadow: 0 0 2px #143c44, 0 0 4px #143c44;
+  }
+  85% {
+    color: #0e2a2e;
+    text-shadow: 0 0 2px #0e2a2e, 0 0 4px #0e2a2e;
+  }
+  90% {
+    color: #0a1e22;
+    text-shadow: 0 0 2px #0a1e22, 0 0 4px #0a1e22;
+  }
+  95% {
+    color: #051112;
+    text-shadow: 0 0 2px #051112, 0 0 4px #051112;
   }
 }

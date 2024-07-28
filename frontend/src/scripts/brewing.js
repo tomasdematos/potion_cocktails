@@ -3,6 +3,7 @@ const cards = document.getElementsByClassName("potion-card");
 
 const sidebar = document.getElementById("ingridients-sidebar");
 const ingridientsContainer = document.getElementById("ingridients-container");
+const potionNameElement = document.getElementById("potion-name");
 
 let selectedCard = "";
 let selectedCardElement;
@@ -11,6 +12,9 @@ let selectedIngridient = "";
 let selectedIngridientElement;
 
 let brewing = false;
+let ready = false;
+
+let potionName = "";
 
 const ingridients = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
 
@@ -18,6 +22,12 @@ const selections = {};
 
 // FUNTIONS
 // ---------------------------------
+const handleOnFull = () => {
+  const resultElement = document.getElementById(`potion-result`);
+  resultElement.classList.remove("disabled");
+  ready = true;
+};
+
 const openSidebar = () => {
   selectedIngridientElement?.classList.remove("selected");
   sidebar.classList.add("visible");
@@ -73,6 +83,12 @@ const onClickIngridient = (ingridient) => {
   newSelectedIngridientElement.classList.add("selected");
   selectedIngridientElement = newSelectedIngridientElement;
   selectedIngridient = ingridient;
+
+  if (Object.keys(selections).length === cards.length - 1 && !ready) {
+    handleOnFull();
+  } else if (ready) {
+    potionName = "";
+  }
 };
 
 const onClickBrew = () => {
@@ -101,15 +117,34 @@ const onClickBrew = () => {
     button.classList.remove("loading");
     avatar.classList.remove("shake-jump");
     button.innerHTML = "Brew";
-
+    console.log(potionNameElement);
+    potionNameElement.classList.add("revealed");
     brewing = false;
   }, 1000 * cards.length);
+};
+
+const onClickPotionCard = () => {
+  const keys = Object.keys(selections);
+  if (keys.length === cards.length - 1) {
+    console.log("new potion for you", selections);
+    let name = "";
+    keys.forEach((key) => {
+      name = `${name} ${selections[key]}`;
+    });
+    // createPotion(name.trimStart());
+    potionName = name;
+    potionNameElement.textContent = potionName;
+  }
 };
 
 // INIT
 // ---------------------------------
 for (let card of cards) {
-  card.onclick = () => onClickCard(card.id);
+  if (!card.classList.contains("potion-result")) {
+    card.onclick = () => onClickCard(card.id);
+  } else {
+    card.onclick = () => onClickPotionCard(card.id);
+  }
 }
 
 for (let i = 0; i < ingridients.length; i++) {
