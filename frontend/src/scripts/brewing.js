@@ -1,39 +1,3 @@
-let potman;
-let store;
-let storePotions = [];
-let allPotions = [];
-
-const avatar = document.getElementById("avatar");
-const cards = document.getElementsByClassName("potion-card");
-const progressContainerElement = document.getElementById("progress-container");
-
-const sidebar = document.getElementById("ingridients-sidebar");
-const ingridientsContainer = document.getElementById("ingridients-container");
-const ingridientsDetailsElement = document.getElementById("ingridient-details");
-const descriptionElement = document.getElementById("description");
-const effectsElement = document.getElementById("effects");
-
-const potionResultElement = document.getElementById(`potion-result`);
-const potionNameElement = document.getElementById("potion-name");
-
-const discoveriesElement = document.getElementById("discoveries");
-
-const brewButton = document.getElementById("brew-button");
-
-let loading = false;
-
-let selectedCard = "";
-let selectedCardElement;
-
-let selectedIngridient = {};
-let selectedIngridientElement;
-
-let readyToBrew = false;
-let brewing = false;
-let brewingDone = false;
-
-let potionName = "";
-
 const ingridientVariants = [
   {
     id: "frog-eyes",
@@ -64,7 +28,7 @@ const ingridientVariants = [
     description:
       "A vibrant feather from a phoenix, glowing with rejuvenating power. ( It keeps bursting into flames )",
     effects: ["Rejuvenation", "Fire immunity"],
-    potionName: ["intermittent Flaming Potion", "With Some Sparkling Flames"],
+    potionName: ["Intermittent Flaming Potion", "With Some Sparkling Flames"],
   },
   {
     id: "mermaid-scales",
@@ -114,6 +78,46 @@ const ingridientVariants = [
   },
 ];
 
+let potman;
+let store;
+let storePotions = [];
+let allPotions = [];
+
+const avatar = document.getElementById("avatar");
+const cards = document.getElementsByClassName("potion-card");
+const progressContainerElement = document.getElementById("progress-container");
+
+const sidebar = document.getElementById("ingridients-sidebar");
+const ingridientsContainer = document.getElementById("ingridients-container");
+const ingridientsDetailsElement = document.getElementById("ingridient-details");
+const descriptionElement = document.getElementById("description");
+const effectsElement = document.getElementById("effects");
+
+const potionResultElement = document.getElementById(`potion-result`);
+const potionNameElement = document.getElementById("potion-name");
+
+const discoveriesElement = document.getElementById("discoveries");
+const progressModalContainerElement = document.getElementById(
+  "progress-modal-container"
+);
+const progressModalElement = document.getElementById("progress-modal");
+
+const brewButton = document.getElementById("brew-button");
+
+let loading = false;
+
+let selectedCard = "";
+let selectedCardElement;
+
+let selectedIngridient = {};
+let selectedIngridientElement;
+
+let readyToBrew = false;
+let brewing = false;
+let brewingDone = false;
+
+let potionName = "";
+
 let selections = {};
 
 // FUNTIONS
@@ -131,7 +135,7 @@ const loadPotman = async () => {
         allPotions.push({
           a: ingridientVariants[i],
           b: ingridientVariants[j],
-          name: `${ingridientVariants[i].potionName[0]} + ${ingridientVariants[j].potionName[1]}`,
+          name: `${ingridientVariants[i].potionName[0]} ${ingridientVariants[j].potionName[1]}`,
         });
       }
     }
@@ -140,11 +144,54 @@ const loadPotman = async () => {
     progressContainerElement.style.height = `${
       (storePotions.length * 11) / allPotions.length
     }rem`;
+
+    allPotions.forEach((potion) => {
+      const potionElement = document.createElement("p");
+      const storePotion = storePotions.find(({ name }) => name === potion.name);
+
+      potionElement.textContent = storePotion
+        ? `${storePotion.amount}x ${potion.name}`
+        : potion.name;
+
+      if (storePotion) {
+        potionElement.id = `potion-item-${storePotion.id}`;
+        potionElement.classList.add("revealed");
+      }
+
+      progressModalElement.appendChild(potionElement);
+    });
   } else {
     alert("The magic core of the potions is broken (unexpected error)");
   }
   loading = false;
 };
+
+// MODAL
+
+const openProgressModal = () => {
+  allPotions.forEach((potion) => {
+    const storePotion = storePotions.find(
+      (storePotion) => storePotion.name === potion.name
+    );
+    if (storePotion) {
+      const potionElement = document.getElementById(
+        `potion-item-${storePotion.id}`
+      );
+      potionElement.textContent = storePotion
+        ? `${storePotion.amount}x ${potion.name}`
+        : potion.name;
+      potionElement.classList.add("revealed");
+    }
+  });
+
+  progressModalContainerElement.classList.remove("hidden");
+};
+
+const closeProgressModal = () => {
+  progressModalContainerElement.classList.add("hidden");
+};
+
+// ON ALL SELECTIONS
 
 const handleOnFull = () => {
   const keys = Object.keys(selections);
@@ -155,17 +202,24 @@ const handleOnFull = () => {
     });
     potionName = name.trim();
     potionNameElement.textContent = potionName;
+
+    if (storePotions.find((storePotion) => storePotion.name === potionName)) {
+      potionNameElement.classList.add("revealed");
+    } else {
+      potionNameElement.classList.remove("revealed");
+    }
   }
   brewButton.classList.remove("disabled");
   readyToBrew = true;
 };
+
+// SIDEBAR
 
 const openSidebar = () => {
   selectedIngridientElement?.classList.remove("selected");
   sidebar.classList.add("visible");
   selectedIngridient = selections[selectedCard];
 
-  console.log(selectedIngridient);
   if (selectedIngridient?.id) {
     selectedIngridientElement = document.getElementById(selectedIngridient.id);
     selectedIngridientElement?.classList.add("selected");
@@ -193,23 +247,6 @@ const closeSidebar = () => {
   ingridientsDetailsElement.classList.add("disabled");
 };
 
-const onClickCard = (id) => {
-  if (!brewing && !brewingDone) {
-    selectedCard = id;
-
-    for (let card of cards) {
-      if (card.id === selectedCard) {
-        card.classList.add("selected");
-        selectedCardElement = card;
-      } else {
-        card.classList.remove("selected");
-      }
-    }
-
-    openSidebar();
-  }
-};
-
 const onClickIngridient = (ingridient) => {
   selections[selectedCardElement.id] = ingridient;
   const newSelectedIngridientElement = document.getElementById(ingridient.id);
@@ -227,6 +264,63 @@ const onClickIngridient = (ingridient) => {
 
   if (Object.keys(selections).length === cards.length - 1) {
     handleOnFull();
+  }
+};
+
+// CARDS
+
+const onClickCard = (id) => {
+  if (!brewing && !brewingDone) {
+    selectedCard = id;
+
+    for (let card of cards) {
+      if (card.id === selectedCard) {
+        card.classList.add("selected");
+        selectedCardElement = card;
+      } else {
+        card.classList.remove("selected");
+      }
+    }
+
+    openSidebar();
+  }
+};
+
+const onClickPotionCard = async () => {
+  if (brewingDone) {
+    try {
+      const { stock } = await postBrew(store.id, potionName);
+      const storeStockIndex = store.stocks.findIndex(
+        ({ id }) => id === stock.id
+      );
+      if (storeStockIndex > -1) {
+        store.stocks[storeStockIndex] = stock;
+      } else {
+        store.stocks.push(stock);
+      }
+
+      storePotions = getStorePotions(store, stock);
+      brewingDone = false;
+      potionNameElement.classList.remove("revealed");
+      potionName = "";
+      potionNameElement.textContent = "";
+      selections = {};
+
+      for (let card of cards) {
+        if (card.classList.contains("potion-result")) {
+          card.classList.add("disabled");
+        } else {
+          card.classList.remove("disabled");
+          card.classList.remove("assigned");
+        }
+      }
+      discoveriesElement.textContent = `${storePotions.length}/${allPotions.length}`;
+      progressContainerElement.style.height = `${
+        (storePotions.length * 11) / allPotions.length
+      }rem`;
+    } catch (error) {
+      alert("The potion is lost in the Disformity");
+    }
   }
 };
 
@@ -270,45 +364,6 @@ const onClickBrew = () => {
       brewing = false;
       brewingDone = true;
     }, 1000 * cards.length);
-  }
-};
-
-const onClickPotionCard = async () => {
-  if (brewingDone) {
-    try {
-      const { stock } = await postBrew(store.id, potionName);
-      const storeStockIndex = store.stocks.findIndex(
-        ({ id }) => id === stock.id
-      );
-      if (storeStockIndex > -1) {
-        store.stocks[storeStockIndex] = stock;
-      } else {
-        store.stocks.push(stock);
-      }
-
-      storePotions = getStorePotions(store, stock);
-      brewingDone = false;
-      potionNameElement.classList.remove("revealed");
-      potionName = "";
-      potionNameElement.textContent = "";
-      selections = {};
-
-      for (let card of cards) {
-        if (card.classList.contains("potion-result")) {
-          card.classList.add("disabled");
-        } else {
-          card.classList.remove("disabled");
-          card.classList.remove("assigned");
-        }
-      }
-      discoveriesElement.textContent = `${storePotions.length}/${allPotions.length}`;
-      progressContainerElement.style.height = `${
-        (storePotions.length * 11) / allPotions.length
-      }rem`;
-    } catch (error) {
-      console.log(error);
-      alert("The potion is lost in the Disformity");
-    }
   }
 };
 
