@@ -14,7 +14,11 @@
   transition: font-size 1.5s, color 1.5s;
 }
 
-.glow-on-hover:before {
+.glow-on-hover.disabled {
+  opacity: 0.25;
+}
+
+.glow-on-hover:not(.disabled):before {
   content: "";
   background: linear-gradient(
     45deg,
@@ -42,26 +46,16 @@
   border-radius: 10px;
 }
 
-.glow-on-hover:hover:not(.loading) {
+.glow-on-hover:hover:not(.brewing, .disabled) {
   animation: glow 1s infinite;
 }
 
-@keyframes glow {
-  0%,
-  100% {
-    color: #fff;
-  }
-  50% {
-    color: rgb(128, 128, 128);
-  }
-}
-
-.glow-on-hover:hover:after {
+.glow-on-hover:not(.disabled):hover:after {
   background: #6c594af7;
 }
 
-.glow-on-hover:active,
-.glow-on-hover.loading {
+.glow-on-hover:active:not(.disabled),
+.glow-on-hover:not(.disabled).brewing {
   color: #fff;
   font-weight: 700;
   transition: font-size 3s, color 3s;
@@ -69,13 +63,13 @@
   font-size: 2rem;
 }
 
-.glow-on-hover:active:after,
-.glow-on-hover.loading:after {
+.glow-on-hover:not(.disabled):active:after,
+.glow-on-hover.brewing:after {
   background: transparent;
 }
 
 .glow-on-hover:hover:before,
-.glow-on-hover.loading::before {
+.glow-on-hover.brewing::before {
   opacity: 1;
 }
 
@@ -100,5 +94,15 @@
   }
   100% {
     background-position: 0 0;
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    color: #fff;
+  }
+  50% {
+    color: rgb(128, 128, 128);
   }
 }

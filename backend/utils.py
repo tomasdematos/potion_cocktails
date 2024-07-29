@@ -52,7 +52,7 @@ def format_store(store, simple=False):
         'createdAt': store.created_at,
         'ownerId': store.owner_id,
         'fame': store.fame,
-        'stokes': format_stocks(store.stocks, simple)
+        'stocks': format_stocks(store.stocks, simple)
     }
     return store_data
 

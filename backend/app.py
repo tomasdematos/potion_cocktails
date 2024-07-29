@@ -261,6 +261,78 @@ def add_stock():
         return jsonify({'message': 'Internal server error'}), 500
 
 
+# BREW
+
+@app.route('/brew', methods=['POST'])
+def add_brew():
+    try:
+        data = request.json
+        store_id = data.get('storeId')
+        potion_name = data.get('potionName')
+        amount = data.get('amount')
+        # --------------------------------
+        # Check missing fields
+        # --------------------------------
+        error = ''
+        if not store_id:
+            error = error + '\'storeId\' '
+        if not potion_name:
+            error = error + '\'potionName\' '
+
+        if error != '':
+            return jsonify({'message': 'Bad request: Missing required fields: ' + error.strip()}), 400
+        # --------------------------------
+        # Check Foraints
+        # --------------------------------
+        store = Store.query.get(store_id)
+        if not store:
+            return jsonify({'message': 'Bad request: Invalid store_id'}), 400
+        # --------------------------------
+        # Check for existing stock
+        # --------------------------------
+        potion = Potion.query.filter_by(name=potion_name).first()
+        if potion:
+            stock = Stock.query.filter_by(
+                store_id=store_id,
+                potion_id=potion.id
+            ).first()
+            if stock:
+                stock.amount += 1
+                db.session.commit()
+
+                stock_data = format_stock(stock)
+                return jsonify({'message': 'Already Existing Stock', 'stock': stock_data}), 200
+            else:
+                new_stock = Stock(
+                    store_id=store_id,
+                    potion_id=potion.id,
+                    amount=1
+                )
+                db.session.add(new_stock)
+                db.session.commit()
+                stock_data = format_stock(new_stock)
+                return jsonify({'message': 'Stock created', 'stock': stock_data}), 201
+
+        new_potion = Potion(name=potion_name)
+        db.session.add(new_potion)
+        db.session.commit()
+
+        new_stock = Stock(
+            store_id=store_id,
+            potion_id=new_potion.id,
+            amount=amount
+        )
+        db.session.add(new_stock)
+        db.session.commit()
+
+        stock_data = format_stock(new_stock)
+
+        return jsonify({'message': 'Stock created', 'stock': stock_data}), 201
+    except Exception as error:
+        print('Error', error)
+        return jsonify({'message': 'Internal server error'}), 500
+
+
 if __name__ == '__main__':
     db.init_app(app)
     with app.app_context():

@@ -1,0 +1,57 @@
+.progress-modal-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #00000066;
+  z-index: 20;
+  left: auto;
+  right: auto;
+  cursor: pointer;
+
+  .modal {
+    display: flex;
+    padding: 0.5rem;
+    border: 0.25rem solid #674525;
+    min-width: 40rem;
+    min-height: 25rem;
+    width: 65%;
+    height: 65%;
+    gap: 0.5rem;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    background-color: #c59363;
+    overflow-y: scroll;
+    cursor: default;
+
+    p {
+      font-size: 1rem;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      background-color: #846243;
+      font-family: "Dragon Alphabet";
+    }
+
+    p.revealed {
+      font-family: "Serif";
+      animation: potion-name-glow 2s ease infinite;
+      color: #000000 !important;
+      text-shadow: 0 0 2px #23747e, 0 0 4px #23747e;
+    }
+  }
+
+  .modal::-webkit-scrollbar {
+    display: none;
+  }
+
+  .modal {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+.progress-modal-container.hidden {
+  display: none;
+}
